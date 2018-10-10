@@ -1,0 +1,19 @@
+services:
+    order.service.order_service:
+        class:    App\Order\Services\OrderService
+    order.service.distance_service:
+        class:    App\Order\Services\DistanceService
+    auth.service.auth_service:
+        class:    App\Auth\Services\AuthService
+    order.model.order:
+        class:    App\Order\Models\Order
+    order.model.distance:
+        class:    App\Order\Models\Distance
+    auth.model.auth:
+        class:    App\Auth\Models\Auth
+    order.repository.order_repository:
+        class:    App\Order\Repository\OrderRepository
+    order.repository.distance_repository:
+        class:    App\Order\Repository\DistanceRepository
+    auth.repository.auth_repository:
+        class:    App\Auth\Repository\AuthRepository

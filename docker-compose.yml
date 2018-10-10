@@ -1,0 +1,64 @@
+version: "2.1"
+
+services:
+    nginx:
+        build: ./nginx/
+        container_name: delivery_nginx
+        dns_search: nginx
+        ports:
+            - 8080:80
+        volumes:
+            - "./code:/var/www/html:ro"
+        networks:
+            - server
+        depends_on:
+            - php
+
+    php:
+        build: ./php/
+        container_name: delivery_php
+        expose:
+            - 9000
+        volumes:
+            - "./code:/var/www/html"
+        working_dir: /var/www/html
+        dns_search: php
+        networks:
+            - database
+            - server
+        depends_on:
+            - mysql
+
+    mysql:
+        build: ./mysql/
+        container_name: delivery_mysql
+        volumes:
+            - db-data:/var/lib/mysql
+        ports:
+            - 3306:3306
+        networks:
+            - database
+        dns_search: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: "password"
+            MYSQL_DATABASE: "deliveryorder"
+            MYSQL_PASSWORD: "password"
+        command: mysqld --sql_mode='' --max_allowed_packet=512M --innodb_buffer_pool_size=512M --innodb_flush_log_at_trx_commit=0
+        restart: always
+
+    composer:
+        restart: 'no'
+        image: composer/composer:php7
+        command: install
+        working_dir: /var/www/html
+        volumes:
+            - "./code:/var/www/html"
+        command: chmod 777 -R /var/www/html
+
+volumes:
+    db-data:
+      driver: local
+
+networks:
+    database:
+    server:
