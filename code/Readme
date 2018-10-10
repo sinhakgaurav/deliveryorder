@@ -16,6 +16,8 @@ We have a config variable under /app/bootstrap.php for:
     
 We have a .env file under /app/config folder having
 	for putting bypassing token authentication : BYPASS_TOKEN
-    Auth token key : TOKEN
+        Auth token key : TOKEN
 	DB Authentication details
 	Google Access token : API_KEY_GOOGLE
+
+token is required to be placed in header of the request 
